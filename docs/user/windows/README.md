@@ -6,13 +6,6 @@ This guide combines the steps for Cluster Setup, Network Setup, and Installation
 
 This guide provides instructions to set up a Kubernetes cluster required for running the Umbrella Chart.
 
-You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4).
-
-https://github.com/user-attachments/assets/c10bb246-33a1-47fa-9b94-9af433b4adfd
-> [!WARNING]
-> The video may not be displayed depending on your browser and browser version, try using different one if you are not able to see it.
-> You can also dowload it from the previus link.
-
 ### System Requirements
 
 | CPU (Cores) | Memory (GB) |
@@ -252,6 +245,16 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    smtp.tx.test
    ```
 
+   **For the Decentralized IdentityHub profile (recommended), also add:**
+
+   ```text
+   <MINIKUBE_IP>    provider.local
+   <MINIKUBE_IP>    provider.intranet
+   <MINIKUBE_IP>    consumer.local
+   <MINIKUBE_IP>    consumer.intranet
+   <MINIKUBE_IP>    issuerservice.local
+   ```
+
 ##### Windows
 
 > [!WARNING]
@@ -320,18 +323,31 @@ Navigate to the `charts/umbrella` directory.
 cd charts/umbrella/
 ```
 
-**:grey_question: Command explanation**
+> [!NOTE]
+> **Do not run anything yet.** All install commands you will use below follow the
+> same pattern &mdash; the snippet here is just a reference so you understand the
+> flags. Pick one of the subsets in the sections that follow
+> ([Decentralized IdentityHub](#decentralized-identityhub-subset-recommended-default),
+> [Data Exchange (legacy)](#data-exchange-subset-legacy-centralized-flow) or
+> [Portal](#portal-subset)) and run the command listed there.
 
-> `helm install` is used to install a Helm chart.
-> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
->
-> > `umbrella` is the release name for the Helm chart.
->
-> > `.` specifies the path to the chart directory.
->
-> > `--namespace umbrella` specifies the namespace in which to install the chart.
->
-> > `--create-namespace` create a namespace with the name `umbrella`.
+```bash
+helm install -f <values-file>.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+<details>
+<summary><strong>❓ What does each flag mean?</strong></summary>
+
+<br/>
+
+- `helm install` &mdash; installs a Helm chart.
+- `-f <values-file>.yaml` &mdash; values file used for configuration (e.g. `values-adopter-decentralized-identityhub.yaml` or your own `your-values.yaml`).
+- `umbrella` &mdash; release name of the Helm chart.
+- `.` &mdash; path to the chart directory (the current `charts/umbrella/` folder).
+- `--namespace umbrella` &mdash; target Kubernetes namespace.
+- `--create-namespace` &mdash; create the `umbrella` namespace if it does not exist.
+
+</details>
 
 ### Custom Configuration
 
@@ -345,9 +361,27 @@ helm install -f your-values.yaml umbrella . --namespace umbrella --create-namesp
 
 Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
 
-### Data Exchange Subset
+### Decentralized IdentityHub Subset (recommended default)
 
-The Data Exchange subset enables secure data sharing between participants in the network.
+Since Release 25.12 this is the recommended scenario — it deploys a provider EDC,
+a consumer EDC, the IssuerService and the BDRS server using decentralized
+identifiers (`did:web`) and per-participant IdentityHubs.
+
+> Make sure your hosts file already contains the `*.local`, `*.intranet` and
+> `bdrs-server.tx.test` entries listed in the [DNS resolution setup](#dns-resolution-setup)
+> section above.
+
+```bash
+helm install -f values-adopter-decentralized-identityhub.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+See [Data Exchange with Decentralized IdentityHub](../common/guides/data-exchange-identityhub.md)
+for the participant identifiers (BPNs / DIDs) and how to exercise the dataspace.
+
+### Data Exchange Subset (legacy centralized flow)
+
+The legacy Data Exchange subset uses CX-IAM and the centralized `ssi-dim-wallet-stub`.
+Kept for backwards compatibility.
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace

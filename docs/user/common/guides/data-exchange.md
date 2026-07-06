@@ -1,4 +1,12 @@
-# Data Exchange Usage
+# Data Exchange Usage (legacy centralized profile)
+
+> [!NOTE]
+> This page documents the **legacy** centralized data exchange flow
+> (`values-adopter-data-exchange.yaml`, CX-IAM + `ssi-dim-wallet-stub`). Since
+> Release 25.12 the **default** scenario is the decentralized IdentityHub flow —
+> see [Data Exchange with Decentralized IdentityHub](data-exchange-identityhub.md)
+> and the per-OS deployment guides ([Linux](../../linux/README.md) ·
+> [macOS](../../mac/README.md) · [Windows](../../windows/README.md)).
 
 This guide provides instructions for using the Data Exchange subset of the Umbrella Chart.
 
@@ -52,7 +60,7 @@ Follow the Curl Steps for direct interaction with the APIs to:
 - Refer to the [Cluster Setup Guide](../setup/cluster) if there are issues with service connectivity.
 - If additional data consumers are required, enable `dataconsumerTwo` in the `values.yaml` file and redeploy the chart.
 
-For further details, refer to the [Data Exchange Installation Guide](../setup/README.md#data-exchange-subset).
+For further details, refer to the per-OS install guides under [`docs/user/`](../../).
 
 ## NOTICE
 

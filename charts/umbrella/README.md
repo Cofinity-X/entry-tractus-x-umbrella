@@ -4,7 +4,8 @@ This umbrella chart provides a foundation for running end-to-end tests or creati
 
 ## **Quick Links**
 
-- [Latest Release Notes](../../docs/user/common/note-r2405-onwards/R24.05.md)
+- [Documentation](../../docs/README.md)
+- [Linux deployment guide](../../docs/user/linux/README.md) · [macOS](../../docs/user/mac/README.md) · [Windows](../../docs/user/windows/README.md)
 - [Setup Instructions](../../docs/README.md#setup-network--installation)
 - [Guides](../../docs/user/common/guides)
 
